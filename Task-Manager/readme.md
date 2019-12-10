@@ -1,2 +1,2 @@
 The actual files. 
-![Image](https://ibb.co/XyKMQJH)
+![Image](/Screenshot(336).png)

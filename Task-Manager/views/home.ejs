@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    />
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet" />
+    <title>Task Manager</title>
+    <style>
+      .buttoncontainer {
+        display: block;
+        position: relative;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      .buttoncontainer input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+    </style>
+    <script>
+      // changes the color of the select/unselect button.
+      function changeColor(id) {
+        var element = document.getElementById(id);
+        if (
+          String(element.parentNode.firstElementChild.checked).trim() == "false"
+        ) {
+          element.classList.add("btn-blue-grey");
+          element.classList.remove("btn-outline-blue");
+          element.innerText = "Unselect";
+          element.parentNode.firstElementChild.checked = true;
+        } else {
+          element.classList.add("btn-outline-blue");
+          element.classList.remove("btn-blue-grey");
+          element.innerText = "Select";
+          element.parentNode.firstElementChild.checked = false;
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <!-- Title  -->
+    <center>
+      <h1
+        class="h1-responsive btn-outline-white col-sm-6 sunny-morning-gradient rounded-pill"
+      >
+        The TODO List
+      </h1>
+    </center>
+    <!-- Centered content  -->
+
+    <center>
+      <!-- Note 1 -->
+
+      <div class="col-sm-6">
+        <p class="mb-0 note note-success m-1" style="font-size: small;">
+          <i>
+            Welcome to <strong>The TODO List</strong>! You can proceed by
+            enetering your task and pressing the "Add task" button.
+          </i>
+        </p>
+      </div>
+    </center>
+
+    <!-- Form to add tasks -->
+
+    <center>
+      <form action="/addtask" method="post">
+        <div class="md-form input-group mb-4 col-sm-6">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="enter your task name"
+            name="task"
+            aria-describedby="material-addon1"
+            required
+          />
+        </div>
+        <div class="md-form input-group mb-4 col-sm-6">
+          <input
+            placeholder="click to select deadline"
+            class="textbox-n form-control"
+            type="text"
+            name="date"
+            onfocusin="(this.type='date')"
+            onfocusout="(this.type='text')"
+            id="date"
+          />
+        </div>
+        <div class="md-form input-group mb-4 col-sm-6">
+          <select name="type" class="form-control" required>
+            <option value="" disabled selected>Select your category</option>
+            <option value="Personal" class="form-control col-sm-6"
+              >Personal</option
+            >
+            <option value="Chores" class="form-control col-sm-6">Chores</option>
+            <option value="Work" class="form-control col-sm-6">Work</option>
+            <option value="School" class="form-control col-sm-6">School</option>
+            <option value="Other" class="form-control col-sm-6">Other</option>
+          </select>
+        </div>
+        <button type="submit" class="btn aqua-gradient">
+          Add task
+        </button>
+      </form>
+    </center>
+
+    <!-- Note 2 -->
+
+    <center>
+      <div class="col-sm-6">
+        <p class="mb-0 note note-info m-1" style="font-size: small;">
+          <i>
+            When you are finished with entering the tasks, select the tasks you
+            want to delete and press the "Delete tasks" button to delete them.
+          </i>
+        </p>
+      </div>
+    </center>
+
+    <!-- form to delete tasks -->
+
+    <form action="/deletetask" method="post">
+      <center>
+        <div class="row m-2 d-flex justify-content-around">
+          <%for (let i in tasks){%>
+          <div class="card col-sm-2 m-3 mt-4 mb-auto pr-0 pl-0 pb-0 border">
+            <!-- Card content -->
+            <div class="card-body pl-0 pr-0 pb-0 pt-0 mb-0 ">
+              <!-- Title -->
+              <h4 class="card-title">
+                <%=tasks[i].type%>
+              </h4>
+              <!-- Text -->
+              <p class="card-text">
+                <%=tasks[i].task%>
+              </p>
+              <!-- Button -->
+              <label class="buttoncontainer p-0">
+                <input
+                  type="checkbox"
+                  name="<%=tasks[i]._id%>"
+                  class="makeinvisible"
+                />
+                <button
+                  type="button"
+                  id="<%=i%>"
+                  class="checkmark btn btn-outline-blue"
+                  onclick="changeColor(id)"
+                >
+                  Select
+                </button>
+              </label>
+              <!-- Footer -->
+              <div class="card-footer text-muted text-center mt-4 pb-0">
+                <%=tasks[i].date%>
+              </div>
+            </div>
+          </div>
+          <%}%>
+        </div>
+      </center>
+      <center>
+        <button
+          style="margin-bottom: 10px;"
+          type="submit"
+          class="btn btn-elegant"
+        >
+          Delete Tasks
+        </button>
+      </center>
+    </form>
+
+    <!-- scripts included from mdbootstrap -->
+
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <script>
+      // setting up colors for different categories
+      elements = document.getElementsByClassName("card-title");
+      console.log(elements);
+      for (let i of elements) {
+        console.log(i.innerText);
+        if (i.innerText.trim() == "Work") {
+          console.log("Hello");
+          i.classList.add("deep-blue-gradient");
+          i.classList.add("white-text");
+        }
+        if (i.innerText.trim() == "School") {
+          console.log("Hello");
+          i.classList.add("purple-gradient");
+          i.classList.add("white-text");
+        }
+        if (i.innerText.trim() == "Personal") {
+          console.log("Hello");
+          i.classList.add("peach-gradient");
+          i.classList.add("white-text");
+        }
+        if (i.innerText.trim() == "Chores") {
+          console.log("Hello");
+          i.classList.add("aqua-gradient");
+          i.classList.add("white-text");
+        }
+        if (i.innerText.trim() == "Other") {
+          console.log("Hello");
+          i.classList.add("blue-gradient");
+          i.classList.add("white-text");
+        }
+      }
+    </script>
+  </body>
+</html>

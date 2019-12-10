@@ -1,2 +1,2 @@
 The actual files. 
-![Image](/Screenshot(336).png)
+![Image](./Screenshot (336).png)
